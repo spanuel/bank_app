@@ -1,0 +1,1 @@
+[{"username": "vuyo", "password": "$2b$12$ihTKtx0cH36f3sKSA4gPquP2FYt.g0RpD1evm.xfs.kJU0oheGBUG", "balance": 25.0}, {"username": "aviwe", "password": "$2b$12$wxCiovKu02290Ap9aM/uOe3YGODIaOPV4BbrsEFR.3xmwxEQs6X7y", "balance": 5000.0}, {"username": "mbuzeli", "password": "$2b$12$P5u89HCBCLchC1qOkfKLfuBicjjuYUx0soTvnQpK.dPkJe4thOH/y", "balance": 6000.0}]
