@@ -13,19 +13,25 @@ class AccountManagementWindow(tk.Tk):
 
     def create_widgets(self):
         self.greet_label = tk.Label(self,text=f"Hello {self.username}")
-        self.greet_label.pack()
+        self.greet_label.pack(pady=5)
 
         self.balance_label = tk.Label(self,text=f"Current Balance: R{self.account.balance}")
-        self.balance_label.pack()
+        self.balance_label.pack(pady=5)
 
-        self.deposit_button = tk.Button(self, text="Deposit")
-        self.deposit_button.pack()
+        self.deposit_button = tk.Button(self, text="Deposit",bg="gray")
+        self.deposit_button.pack(pady=10)
 
-        self.withdraw_button = tk.Button(self, text="Withdraw")
-        self.withdraw_button.pack()
+        self.withdraw_button = tk.Button(self, text="Withdraw",bg="gray")
+        self.withdraw_button.pack(pady=10)
 
-        self.transfer_button = tk.Button(self, text="Transfer")
-        self.transfer_button.pack()
+        self.transfer_button = tk.Button(self, text="Transfer",bg="gray")
+        self.transfer_button.pack(pady=10)
+
+        self.transaction_history_button = tk.Button(self, text="Transaction History",bg="gray")
+        self.transaction_history_button.pack(pady=10)
+
+        self.bank_statement_button = tk.Button(self, text="Bank Statement",bg="gray")
+        self.bank_statement_button.pack(pady=10)
 
 
 if __name__ == "__main__":
