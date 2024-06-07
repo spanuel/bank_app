@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 from bank_app.authentication import authenticate_user,reset_password
+from bank_app.ui_account_management import AccountManagementWindow
+from bank_app.ui_registration import RegistrationWindow
+from bank_app.account import Account
 
 class LoginWindow(tk.Tk):
     def __init__(self):
@@ -24,7 +27,7 @@ class LoginWindow(tk.Tk):
         self.login_button = tk.Button(self, text="Login", command=self.validate_login)
         self.login_button.pack()
 
-        self.forgot_password_button = tk.Button(self, text="Forgot Password?", command=self.forgot_password)
+        self.forgot_password_button = tk.Button(self, text="Forgot Password?", command=self.forgot_password,borderwidth=0,cursor="hand2",underline=True)
         self.forgot_password_button.pack()
 
     def validate_login(self):
@@ -32,7 +35,7 @@ class LoginWindow(tk.Tk):
         password = self.password_entry.get()
         if authenticate_user(username, password):
             self.destroy()
-            messagebox.showinfo("Login Successful")
+            AccountManagementWindow(username).mainloop()
         else:
             messagebox.showerror("Error", "Invalid username or password")
 
@@ -65,6 +68,11 @@ class ForgotPasswordWindow(tk.Toplevel):
         new_password = self.new_password_entry.get()
         if reset_password(username, new_password):
             messagebox.showinfo("Success", "Password reset successfully")
-            self.destroy()
+            self.destroy()           
         else:
             messagebox.showerror("Error", "Username not found")
+        
+        
+if __name__ == "__main__":
+    app = LoginWindow()
+    app.mainloop()

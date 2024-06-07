@@ -36,7 +36,7 @@ class RegistrationWindow(tk.Tk):
 
     def toggle_password_entry(self):
         if self.generate_password_var.get():
-            self.password_entry.configure(state='disabled')
+            self.password_entry.configure(state='disabled')                      
         else:
             self.password_entry.configure(state='normal')
 
@@ -46,13 +46,13 @@ class RegistrationWindow(tk.Tk):
 
         if self.generate_password_var.get():
             password = generate_password()
-            messagebox.showinfo("Generated Password", f"Your generated password is: {password}")
+            messagebox.showinfo("Generated Password", f"Your generated password is: {password}")           
         else:
             password = self.password_entry.get()
 
         
         try:
-            balance = float(balance) 
+            balance = round(float(balance),2) 
         except ValueError:
             messagebox.showerror("Error", "Invalid balance amount. Please enter a numeric value.")
             return
@@ -60,6 +60,8 @@ class RegistrationWindow(tk.Tk):
         if register_user(username, password, balance):
             messagebox.showinfo("Success", "User registered successfully")
             self.destroy()
+            from bank_app.ui_login import LoginWindow
+            LoginWindow().mainloop()
         else:
             messagebox.showerror("Error", "Username already exists")
 
