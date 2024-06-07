@@ -9,7 +9,7 @@ class LoginWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Login")
-        self.geometry("300x200")
+        self.geometry("300x150")
         self.eval('tk::PlaceWindow . center')
         self.create_widgets()
 
@@ -59,6 +59,11 @@ class ForgotPasswordWindow(tk.Toplevel):
         self.new_password_label.pack()
         self.new_password_entry = tk.Entry(self, show="*")
         self.new_password_entry.pack()
+
+        self.confirm_password_label = tk.Label(self, text="Confirm Password")
+        self.confirm_password_label.pack()
+        self.confirm_password_entry = tk.Entry(self, show="*")
+        self.confirm_password_entry.pack()
 
         self.reset_button = tk.Button(self, text="Reset Password", command=self.reset_password)
         self.reset_button.pack()

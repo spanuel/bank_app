@@ -1,1 +1,1 @@
-[]
+[{"username": "vuyo", "password": "$2b$12$sAWEDdjFUesNwbGh4APluuuQA3AAI.TkDEPFKUCThwIlm/d83YuCi", "balance": 2000.0}]

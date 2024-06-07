@@ -7,11 +7,14 @@ class AccountManagementWindow(tk.Tk):
         self.username = username
         self.account = Account.load_account(username)
         self.title("Account Management")
-        self.geometry("400x300")
+        self.geometry("300x300")
         self.eval('tk::PlaceWindow . center')
         self.create_widgets()
 
     def create_widgets(self):
+        self.greet_label = tk.Label(self,text=f"Hello {self.username}")
+        self.greet_label.pack()
+
         self.balance_label = tk.Label(self,text=f"Current Balance: R{self.account.balance}")
         self.balance_label.pack()
 

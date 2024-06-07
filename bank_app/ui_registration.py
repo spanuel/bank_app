@@ -36,9 +36,12 @@ class RegistrationWindow(tk.Tk):
 
     def toggle_password_entry(self):
         if self.generate_password_var.get():
+            self.password_entry.delete(0, tk.END)
+            self.password_entry.insert(0,generate_password)
             self.password_entry.configure(state='disabled')                      
         else:
             self.password_entry.configure(state='normal')
+            self.password_entry.delete(0, tk.END)
 
     def register(self):
         username = self.username_entry.get()
@@ -46,7 +49,7 @@ class RegistrationWindow(tk.Tk):
 
         if self.generate_password_var.get():
             password = generate_password()
-            messagebox.showinfo("Generated Password", f"Your generated password is: {password}")           
+            messagebox.showinfo("Generated Password", f"Your new password is: {password}")           
         else:
             password = self.password_entry.get()
 
