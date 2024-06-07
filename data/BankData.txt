@@ -1,1 +1,1 @@
-[{"username": "vuyo", "password": "$2b$12$sAWEDdjFUesNwbGh4APluuuQA3AAI.TkDEPFKUCThwIlm/d83YuCi", "balance": 2000.0}]
+[{"username": "vuyo", "password": "$2b$12$sAWEDdjFUesNwbGh4APluuuQA3AAI.TkDEPFKUCThwIlm/d83YuCi", "balance": 2000.0}, {"username": "yonela", "password": "$2b$12$TKC7HG750W0YzPKXfvkwVO4iTuTZHvbj2/1y36gJG0auDWPT/HkcO", "balance": 5000.0}]
