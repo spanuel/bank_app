@@ -25,7 +25,7 @@ def authenticate_user(username, password):
             return True
     return False
 
-def register_user(username, password, balance):
+def register_user(username, password, account_number):
     users = read_bank_data()
     for user_data in users:
         if user_data['username'] == username:
@@ -35,7 +35,8 @@ def register_user(username, password, balance):
     new_user = {
         "username": username,
         "password": hashed_password,
-        "balance": balance
+        "account_number": account_number,
+        "balance":0
     }
     users.append(new_user)
 

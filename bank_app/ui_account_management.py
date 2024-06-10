@@ -15,7 +15,7 @@ class AccountManagementWindow(tk.Tk):
         self.greet_label = tk.Label(self,text=f"Hello {self.username}")
         self.greet_label.pack(pady=5)
 
-        self.balance_label = tk.Label(self,text=f"Current Balance: R{self.account.balance}")
+        self.balance_label = tk.Label(self,text=f"Current Balance: R{0}")
         self.balance_label.pack(pady=5)
 
         self.deposit_button = tk.Button(self, text="Deposit",bg="gray")
