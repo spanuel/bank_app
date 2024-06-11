@@ -12,7 +12,7 @@ class RegistrationWindow(tk.Tk):
         self.geometry("300x250")
         self.eval('tk::PlaceWindow . center')
         self.create_widgets()
-
+    
     def create_widgets(self):
         self.username_label = tk.Label(self, text="Username")
         self.username_label.pack()
