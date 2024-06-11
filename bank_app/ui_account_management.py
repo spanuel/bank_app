@@ -1,5 +1,4 @@
 import tkinter as tk
-from bank_app.account import Account
 
 class AccountManagementWindow(tk.Tk):
     def __init__(self,account):
@@ -17,7 +16,7 @@ class AccountManagementWindow(tk.Tk):
         self.greet_label = tk.Label(self,text=f"Hello, {username}")
         self.greet_label.pack(pady=5)
 
-        self.balance_label = tk.Label(self,text=f"Current Balance: R{balance}")
+        self.balance_label = tk.Label(self,text=f"Current Balance: R{balance:.2f}")
         self.balance_label.pack(pady=5)
 
         self.deposit_button = tk.Button(self, text="Deposit",bg="gray")
