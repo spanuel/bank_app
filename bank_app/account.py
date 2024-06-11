@@ -66,7 +66,7 @@ class Account:
 
     def log_transaction(self, transaction_type, amount):
         with open('data/TransactionLog.txt', 'a') as file:
-            file.write(f"{datetime.now()} - {transaction_type} - {amount} - {self.balance}\n")
+            file.write(f"{datetime.now()} - {self.username} - {transaction_type} - {amount} - {self.balance}\n")
 
 
 
