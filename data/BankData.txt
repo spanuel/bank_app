@@ -1,1 +1,1 @@
-{"vuyo": {"username": "vuyo", "password": "$2b$12$exIrLJ2qR0cuTfh8VGFgvOLC2k1z/B5x9fDeUpSclGvwX5HQID2VK", "account_number": "8739244795", "balance": 18000.0}, "yonela": {"username": "yonela", "password": "$2b$12$g9VwjAGfjuEhy7hj0zuv6uzyCJhErMsqDWlTwCpF3uiFiZSR/.T0W", "account_number": "2427958287", "balance": 50000.0}, "vuyo2": {"username": "vuyo2", "password": "$2b$12$XLQvFs4Tds3Po/TEqqFlx.shgtBPh15uBGpvJRFSTnyqApkaK7zE.", "account_number": "5726965773", "balance": 500.0}}
+{}
