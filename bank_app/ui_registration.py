@@ -1,9 +1,9 @@
-import tkinter as tk
 import random
+import string
+import tkinter as tk
 from tkinter import messagebox
 from bank_app.account import Account
 from bank_app.authentication import register_user
-from bank_app.password_generator import generate_password
 
 class RegistrationWindow(tk.Tk):
     def __init__(self):
@@ -24,86 +24,87 @@ class RegistrationWindow(tk.Tk):
         self.password_entry = tk.Entry(self, show="*")
         self.password_entry.pack()
 
-        self.generate_password_var = tk.BooleanVar()
-        self.generate_password_checkbox = tk.Checkbutton(self, text="Generate Random Password", variable=self.generate_password_var, command=self.toggle_password_entry)
-        self.generate_password_checkbox.pack()
+        self.generate_password_var = tk.IntVar()
+        self.generate_password_check = tk.Checkbutton(self, text="Generate Random Password", variable=self.generate_password_var, command=self.toggle_password_entry)
+        self.generate_password_check.pack()
 
         self.register_button = tk.Button(self, text="Register", command=self.register)
         self.register_button.pack()
 
     def toggle_password_entry(self):
         if self.generate_password_var.get():
-            self.password_entry.configure(state='disabled')
+            self.password_entry.config(state=tk.DISABLED)
+            generated_password = self.generate_password()
+            self.password_entry.insert(0, generated_password)
         else:
-            self.password_entry.configure(state='normal')
+            self.password_entry.config(state=tk.NORMAL)
+            self.password_entry.delete(0, tk.END)
+
+    @staticmethod
+    def generate_password(length=12):
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(characters) for _ in range(length))
+        return password
 
     def register(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        if self.generate_password_var.get():
-            password = generate_password()
+        account_number = self.generate_account_number()
 
-        try:
-            account_number = self.generate_account_number()
-            register_user(username, password, account_number)
-            self.show_registration_success(username, account_number, password)
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
-
-        return account_number
+        if register_user(username, password, account_number):
+            self.show_registration_success(username, account_number, password if self.generate_password_var.get() else None)
+        else:
+            messagebox.showerror("Error", "Username already exists")
 
     def generate_account_number(self):
-        return str(random.randint(100, 999)) + ''.join(random.choices('0123456789', k=7))
+        prefix = ''.join(random.choice(string.digits) for _ in range(3))
+        suffix = ''.join(random.choice(string.digits) for _ in range(7))
+        return prefix + suffix
 
     def show_registration_success(self, username, account_number, password):
-        details = f"Account Number: {account_number}\nUsername: {username}\n"
-        if self.generate_password_var.get():
-            details += f"Password: {password}\n"
-        details += "Would you like to fund your account now?"
-        
-        if messagebox.askyesno("Registration Successful", details):
-            return True, account_number
+        message = f"Registration Successful!\n\nUsername: {username}\nAccount Number: {account_number}"
+        if password:
+            message += f"\nGenerated Password: {password}"
+        message += "\n\nWould you like to fund your account now?"
+
+        if messagebox.askyesno("Success", message):
+            self.destroy()
+            DepositWindow(username).mainloop()
         else:
             self.destroy()
             from bank_app.ui_login import LoginWindow
             LoginWindow().mainloop()
-            return False, None
 
 class DepositWindow(tk.Tk):
-    def __init__(self,account_number):
+    def __init__(self, username):
         super().__init__()
-        self.title("Deposit")
+        self.username = username
+        self.title("Deposit Funds")
         self.geometry("300x150")
         self.eval('tk::PlaceWindow . center')
-        self.account_number = account_number
         self.create_widgets()
 
     def create_widgets(self):
-        self.amount_label = tk.Label(self, text="Enter deposit amount: ")
+        self.amount_label = tk.Label(self, text="Deposit Amount")
         self.amount_label.pack()
-        self.amount_entry  = tk.Entry(self)
+        self.amount_entry = tk.Entry(self)
         self.amount_entry.pack()
 
-        self.confirm_button = tk.Button(self, text="Confirm")
+        self.deposit_button = tk.Button(self, text="Deposit", command=self.deposit)
+        self.deposit_button.pack()
 
-    def confirm_deposit(self):
-        amount = float(self.amount_entry)
-        try:
-            account = Account(self.account_number)
-            account.deposit(amount)
-            messagebox.showinfo("Deposit Successful", "Account funded successfully.")
+    def deposit(self):
+        amount = self.amount_entry.get()
+        if amount.isdigit() and int(amount) > 0:
+            account = Account(self.username)
+            account.deposit(float(amount))
+            messagebox.showinfo("Success", f"Deposited R{amount} successfully!")
             self.destroy()
             from bank_app.ui_login import LoginWindow
             LoginWindow().mainloop()
-        except ValueError as e:
-               messagebox.showerror("Error", str(e))
+        else:
+            messagebox.showerror("Error", "Please enter a valid amount")
 
 if __name__ == "__main__":
     registration_window = RegistrationWindow()
     registration_window.mainloop()
-
-    if registration_window.show_registration_success:
-        success, account_number = registration_window.show_registration_success
-        
-        if success: 
-            DepositWindow(account_number).mainloop()

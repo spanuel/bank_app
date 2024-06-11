@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from bank_app.authentication import authenticate_user,reset_password
+from bank_app.authentication import authenticate_user, reset_password
 from bank_app.ui_account_management import AccountManagementWindow
 from bank_app.ui_registration import RegistrationWindow
 from bank_app.account import Account
@@ -27,7 +27,7 @@ class LoginWindow(tk.Tk):
         self.login_button = tk.Button(self, text="Login", command=self.validate_login)
         self.login_button.pack()
 
-        self.forgot_password_button = tk.Button(self, text="Forgot Password?", command=self.forgot_password,borderwidth=0,cursor="hand2",underline=True)
+        self.forgot_password_button = tk.Button(self, text="Forgot Password?", command=self.forgot_password, borderwidth=0, cursor="hand2", underline=True)
         self.forgot_password_button.pack()
 
     def validate_login(self):
@@ -35,7 +35,8 @@ class LoginWindow(tk.Tk):
         password = self.password_entry.get()
         if authenticate_user(username, password):
             self.destroy()
-            AccountManagementWindow(username).mainloop()
+            account = Account(username)
+            AccountManagementWindow(account).mainloop()
         else:
             messagebox.showerror("Error", "Invalid username or password")
 
@@ -71,12 +72,16 @@ class ForgotPasswordWindow(tk.Toplevel):
     def reset_password(self):
         username = self.username_entry.get()
         new_password = self.new_password_entry.get()
+        confirm_password = self.confirm_password_entry.get()
+
         if reset_password(username, new_password):
-            messagebox.showinfo("Success", "Password reset successfully")
-            self.destroy()           
+            if new_password == confirm_password:
+                messagebox.showinfo("Success", "Password reset successfully")
+                self.destroy()
+            else:
+                messagebox.showinfo("Error", "Password doesn't match")
         else:
             messagebox.showerror("Error", "Username not found")
-        
         
 if __name__ == "__main__":
     app = LoginWindow()
