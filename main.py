@@ -7,6 +7,7 @@ class MainApplication(tk.Tk):
         super().__init__()
         self.title("Banking App")
         self.geometry("300x300")
+        self.configure(bg="#d0d3d4")
         self.eval('tk::PlaceWindow . center')
         self.create_widgets()
 
