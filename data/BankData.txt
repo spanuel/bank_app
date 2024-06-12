@@ -1,1 +1,1 @@
-{}
+{"vuyo": {"username": "vuyo", "password": "$2b$12$AHT5z.2xk.6F.xRuSd6K9exGDof.ieS90ze1LFwPRFMq5KizfuVFS", "account_number": "3765433633", "balance": 21500.0}, "yonela": {"username": "yonela", "password": "$2b$12$uS5f5wcEBExN7JdA5h6N6.GR4TKddsTOKxoS7jFnGgJZFPufWAlfS", "account_number": "6308872167", "balance": 35000.0}}

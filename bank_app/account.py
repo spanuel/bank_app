@@ -74,24 +74,26 @@ class Account:
     def log_transaction(self, transaction_type, amount, recipient_username=None):
         with open('data/TransactionLog.txt', 'a') as file:
             if recipient_username:
-                file.write(f"{datetime.now()} - {self.username} - {transaction_type} - R {amount} - R {self.balance} - To/From {recipient_username}\n")
+                file.write(f"{self.username} - {datetime.now()} - {transaction_type} - R {amount} - R {self.balance} - To/From {recipient_username}\n")
             else:
-                file.write(f"{datetime.now()} - {self.username} - {transaction_type} - R {amount} - R {self.balance}\n")
+                file.write(f"{self.username} - {datetime.now()} -  {transaction_type} - R {amount} - R {self.balance}\n")
 
-    @staticmethod
-    def get_transaction_history(username):
+    def get_transaction_history(username, from_date=None, to_date=None):
         transactions = []
         try:
             with open('data/TransactionLog.txt', 'r') as file:
                 for line in file:
-                    if username in line:
-                        transactions.append(line.strip())
+                    if str(username) in line:
+                        transaction_date = line.split(' - ')[0]
+                        transaction_date = datetime.strptime(transaction_date, "%Y-%m-%d %H:%M:%S.%f")
+                        if (from_date is None or transaction_date >= from_date) and (to_date is None or transaction_date <= to_date):
+                            transactions.append(line.strip())
         except FileNotFoundError:
             pass
         return transactions
 
-    def get_bank_statement(self):
-        return self.get_transaction_history(self.username)
+    def get_bank_statement(self, from_date=None, to_date=None):
+        return self.get_transaction_history(self.username, from_date, to_date)
 
 
 
