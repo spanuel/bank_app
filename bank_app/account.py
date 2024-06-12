@@ -64,9 +64,34 @@ class Account:
         self.update_account()
         self.log_transaction("Withdraw", amount)
 
-    def log_transaction(self, transaction_type, amount):
+    def transfer(self, recipient_username, amount):
+        recipient = Account(recipient_username)
+        self.withdraw(amount)
+        recipient.deposit(amount)
+        self.log_transaction("Transfer", amount, recipient_username)
+        recipient.log_transaction("Receive", amount, self.username)
+
+    def log_transaction(self, transaction_type, amount, recipient_username=None):
         with open('data/TransactionLog.txt', 'a') as file:
-            file.write(f"{datetime.now()} - {self.username} - {transaction_type} - R {amount} - R {self.balance}\n")
+            if recipient_username:
+                file.write(f"{datetime.now()} - {self.username} - {transaction_type} - R {amount} - R {self.balance} - To/From {recipient_username}\n")
+            else:
+                file.write(f"{datetime.now()} - {self.username} - {transaction_type} - R {amount} - R {self.balance}\n")
+
+    @staticmethod
+    def get_transaction_history(username):
+        transactions = []
+        try:
+            with open('data/TransactionLog.txt', 'r') as file:
+                for line in file:
+                    if username in line:
+                        transactions.append(line.strip())
+        except FileNotFoundError:
+            pass
+        return transactions
+
+    def get_bank_statement(self):
+        return self.get_transaction_history(self.username)
 
 
 
