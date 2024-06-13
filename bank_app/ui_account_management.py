@@ -82,8 +82,8 @@ class AccountManagementWindow(tk.Tk):
         if from_date:
             to_date = self.get_date("To Date")
             if to_date:
-                statement = Account.get_bank_statement(from_date, to_date)
-                self.display_bank_statement(statement, from_date, to_date)
+                statement = self.account.get_bank_statement(from_date, to_date)
+                self.display_bank_statement(from_date, to_date)
 
     def get_date(self, prompt):
         date_str = simpledialog.askstring("Date Entry", f"Enter {prompt} (YYYY-MM-DD):")
@@ -93,7 +93,9 @@ class AccountManagementWindow(tk.Tk):
             messagebox.showerror("Invalid Date", "Please enter a valid date in YYYY-MM-DD format.")
             return None
 
-    def display_bank_statement(self, statement, from_date, to_date):
+    def display_bank_statement(self, from_date, to_date):
+        statement = self.account.get_bank_statement(from_date, to_date)
+
         statement_window = tk.Toplevel(self)
         statement_window.title("Bank Statement")
         statement_window.geometry("600x400")
@@ -108,7 +110,7 @@ class AccountManagementWindow(tk.Tk):
             f"Print Date: {datetime.now().strftime('%Y-%m-%d')}\n\n"
             f"Personal Details\n"
             f"{self.account.username.capitalize()}\n"
-            f"Account Number: {self.account.username}\n\n"
+            f"Account Number: {self.account.account_number}\n\n"
             f"Transaction Date\tDescription\tMoney In (R)\tMoney Out (R)\tBalance (R)\n"
         )
         statement_text.insert(tk.END, statement_header)
@@ -131,7 +133,6 @@ class AccountManagementWindow(tk.Tk):
         statement_text.config(state=tk.DISABLED)
 
   
-
 if __name__ == "__main__":
     app = AccountManagementWindow("")
     app.mainloop()

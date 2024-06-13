@@ -92,8 +92,8 @@ class Account:
             pass
         return transactions
 
-    def get_bank_statement(self, from_date=None, to_date=None):
-        return self.get_transaction_history(self.username, from_date, to_date)
+    def get_bank_statement(self,from_date=None, to_date=None):
+        return self.get_transaction_history(from_date, to_date)
 
 
 
