@@ -35,7 +35,7 @@ class LoginWindow(tk.Tk):
         password = self.password_entry.get()
         if authenticate_user(username, password):
             self.destroy()
-            account = Account(username)
+            account = Account(username,"")
             AccountManagementWindow(account).mainloop()
         else:
             messagebox.showerror("Error", "Invalid username or password")

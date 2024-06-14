@@ -2,9 +2,10 @@ import json
 from datetime import datetime
 
 class Account:
-    def __init__(self, username):
+    def __init__(self, username,account_number):
         self.username = username
         self.balance = 0.0
+        self.account_number = account_number
         self.load_account()  
 
     def load_account(self):
@@ -20,6 +21,7 @@ class Account:
         if username in users:
             user_data = users[username]
             balance = user_data.get('balance', 0.0)
+            account_number = users[username]
             return balance
         else:
             raise ValueError("Account not found")
@@ -46,6 +48,7 @@ class Account:
             user_data = users[self.username]
             user_data['balance'] = self.balance 
             users[self.username] = user_data
+            users[self.account_number] = user_data
         else:
             raise ValueError("Account not found when updating")
         self.write_bank_data(users)
@@ -78,16 +81,25 @@ class Account:
             else:
                 file.write(f"{self.username} - {datetime.now()} -  {transaction_type} - R {amount} - R {self.balance}\n")
 
-    def get_transaction_history(username, from_date=None, to_date=None):
+    def get_transaction_history(self, from_date=None, to_date=None):
         transactions = []
         try:
             with open('data/TransactionLog.txt', 'r') as file:
                 for line in file:
-                    if str(username) in line:
-                        transaction_date = line.split(' - ')[0]
-                        transaction_date = datetime.strptime(transaction_date, "%Y-%m-%d %H:%M:%S.%f")
+                    transaction_details = line.strip().split(' - ')
+                    if len(transaction_details) >= 5 and str(self.username) in transaction_details[0]:
+                        transaction_date_str = f"{transaction_details[1]}"
+                        transaction_date = datetime.strptime(transaction_date_str, "%Y-%m-%d %H:%M:%S.%f")
+                        transaction = None
                         if (from_date is None or transaction_date >= from_date) and (to_date is None or transaction_date <= to_date):
-                            transactions.append(line.strip())
+                             transaction = {
+                            'date': transaction_date,
+                            'description': transaction_details[2],
+                            'amount': float(transaction_details[3].split(' ')[1]),
+                            'balance': float(transaction_details[4].split(' ')[1])                           
+                             }
+                        transactions.append(transaction)
+                        print(transactions)
         except FileNotFoundError:
             pass
         return transactions

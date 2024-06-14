@@ -74,9 +74,14 @@ class AccountManagementWindow(tk.Tk):
                     messagebox.showerror("Error", str(e))
 
     def show_transaction_history(self):
-        transactions = Account.get_transaction_history(self.account.username)
-        messagebox.showinfo("Transaction History", "\n".join(transactions))
-
+        from_date = self.get_date("From Date")
+        if from_date:
+            to_date = self.get_date("To Date")
+            if to_date:
+                transactions = self.account.get_transaction_history(from_date=from_date, to_date=to_date)
+                messagebox.showinfo("Transaction History", "\n".join(transactions))
+                print(transactions)
+	
     def show_bank_statement(self):
         from_date = self.get_date("From Date")
         if from_date:
